@@ -61,3 +61,129 @@ function vc_nist_staff_members() {
 
 }
 add_action( 'init', 'vc_nist_staff_members', 0 );
+
+// ACF Fields
+
+if( function_exists('acf_add_local_field_group') ):
+
+acf_add_local_field_group(array (
+	'key' => 'group_587ca924c8b5f',
+	'title' => 'Staff Members',
+	'fields' => array (
+		array (
+			'default_value' => '',
+			'maxlength' => '',
+			'placeholder' => 'put first name here',
+			'prepend' => '',
+			'append' => '',
+			'key' => 'field_587ca96014d82',
+			'label' => 'First Name',
+			'name' => 'firstname',
+			'type' => 'text',
+			'instructions' => '',
+			'required' => 1,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+		),
+		array (
+			'default_value' => '',
+			'maxlength' => '',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'key' => 'field_587cab2417465',
+			'label' => 'Last Name',
+			'name' => 'last_name',
+			'type' => 'text',
+			'instructions' => '',
+			'required' => 1,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+		),
+		array (
+			'default_value' => '',
+			'min' => '',
+			'max' => '',
+			'step' => '',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'key' => 'field_587cab5b17467',
+			'label' => 'Person ID',
+			'name' => 'person_id',
+			'type' => 'number',
+			'instructions' => '',
+			'required' => 1,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+		),
+		array (
+			'default_value' => '',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'key' => 'field_587cac0317468',
+			'label' => 'email_1',
+			'name' => 'email_1',
+			'type' => 'email',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+		),
+		array (
+			'default_value' => '',
+			'new_lines' => 'wpautop',
+			'maxlength' => '',
+			'placeholder' => '',
+			'rows' => '',
+			'key' => 'field_587cab3a17466',
+			'label' => 'biography',
+			'name' => 'biography',
+			'type' => 'textarea',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+		),
+	),
+	'location' => array (
+		array (
+			array (
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'staff_member',
+			),
+		),
+	),
+	'menu_order' => 0,
+	'position' => 'normal',
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => '',
+	'active' => 1,
+	'description' => '',
+));
+
+endif;
