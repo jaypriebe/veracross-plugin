@@ -441,7 +441,7 @@ function veracross_department_taxonomies() {
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => true,
 	);
-	register_taxonomy( 'department', array( 'vc_nist_staff_members' ), $args );
+	register_taxonomy( 'department', array( 'staff_member' ), $args );
 
 }
 add_action( 'init', 'veracross_department_taxonomies', 0 );
