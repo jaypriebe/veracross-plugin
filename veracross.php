@@ -401,3 +401,49 @@ acf_add_local_field_group(array (
 ));
 
 endif;
+
+
+//Register Taxonomy for Department(s) so that the WP core query will recognize
+
+if ( ! function_exists( 'veracross_department_taxonomies' ) ) {
+
+// Register Custom Taxonomy
+function veracross_department_taxonomies() {
+
+	$labels = array(
+		'name'                       => _x( 'Departments', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'Department', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'Department', 'text_domain' ),
+		'all_items'                  => __( 'All Departments', 'text_domain' ),
+		'parent_item'                => __( 'Parent Item', 'text_domain' ),
+		'parent_item_colon'          => __( 'Parent Item:', 'text_domain' ),
+		'new_item_name'              => __( 'New Department', 'text_domain' ),
+		'add_new_item'               => __( 'Add New Department', 'text_domain' ),
+		'edit_item'                  => __( 'Edit Department', 'text_domain' ),
+		'update_item'                => __( 'Update Department', 'text_domain' ),
+		'view_item'                  => __( 'View Department', 'text_domain' ),
+		'separate_items_with_commas' => __( 'Separate items with commas', 'text_domain' ),
+		'add_or_remove_items'        => __( 'Add or remove items', 'text_domain' ),
+		'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
+		'popular_items'              => __( 'Popular Items', 'text_domain' ),
+		'search_items'               => __( 'Search Items', 'text_domain' ),
+		'not_found'                  => __( 'Not Found', 'text_domain' ),
+		'no_terms'                   => __( 'No items', 'text_domain' ),
+		'items_list'                 => __( 'Items list', 'text_domain' ),
+		'items_list_navigation'      => __( 'Items list navigation', 'text_domain' ),
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => false,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => true,
+		'show_tagcloud'              => true,
+	);
+	register_taxonomy( 'department', array( 'vc_nist_staff_members' ), $args );
+
+}
+add_action( 'init', 'veracross_department_taxonomies', 0 );
+
+}
