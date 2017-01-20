@@ -326,25 +326,6 @@ acf_add_local_field_group(array (
 			'placeholder' => '',
 			'prepend' => '',
 			'append' => '',
-			'key' => 'field_588032bcc3a6c',
-			'label' => 'School Level',
-			'name' => 'school_level',
-			'type' => 'text',
-			'instructions' => 'comma separated list of exact school level names from VC',
-			'required' => 0,
-			'conditional_logic' => 0,
-			'wrapper' => array (
-				'width' => '',
-				'class' => '',
-				'id' => '',
-			),
-		),
-		array (
-			'default_value' => '',
-			'maxlength' => '',
-			'placeholder' => '',
-			'prepend' => '',
-			'append' => '',
 			'key' => 'field_588032ebc3a6d',
 			'label' => 'Faculty Type',
 			'name' => 'faculty_type',
@@ -394,7 +375,7 @@ function veracross_department_taxonomies() {
 	$labels = array(
 		'name'                       => _x( 'Departments', 'Taxonomy General Name', 'text_domain' ),
 		'singular_name'              => _x( 'Department', 'Taxonomy Singular Name', 'text_domain' ),
-		'menu_name'                  => __( 'Department', 'text_domain' ),
+		'menu_name'                  => __( 'Departments', 'text_domain' ),
 		'all_items'                  => __( 'All Departments', 'text_domain' ),
 		'parent_item'                => __( 'Parent Item', 'text_domain' ),
 		'parent_item_colon'          => __( 'Parent Item:', 'text_domain' ),
@@ -426,5 +407,50 @@ function veracross_department_taxonomies() {
 
 }
 add_action( 'init', 'veracross_department_taxonomies', 0 );
+
+}
+
+//Register Taxonomy for School Level(s) so that the WP core query will recognize
+
+if ( ! function_exists( 'veracross_schoollevel_taxonomies' ) ) {
+
+// Register Custom Taxonomy
+function veracross_schoollevel_taxonomies() {
+
+	$labels = array(
+		'name'                       => _x( 'School Levels', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'School Level', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'School Levels', 'text_domain' ),
+		'all_items'                  => __( 'All School Levels', 'text_domain' ),
+		'parent_item'                => __( 'Parent Item', 'text_domain' ),
+		'parent_item_colon'          => __( 'Parent Item:', 'text_domain' ),
+		'new_item_name'              => __( 'New School Level', 'text_domain' ),
+		'add_new_item'               => __( 'Add New School Level', 'text_domain' ),
+		'edit_item'                  => __( 'Edit School Level', 'text_domain' ),
+		'update_item'                => __( 'Update School Level', 'text_domain' ),
+		'view_item'                  => __( 'View School Level', 'text_domain' ),
+		'separate_items_with_commas' => __( 'Separate items with commas', 'text_domain' ),
+		'add_or_remove_items'        => __( 'Add or remove items', 'text_domain' ),
+		'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
+		'popular_items'              => __( 'Popular Items', 'text_domain' ),
+		'search_items'               => __( 'Search Items', 'text_domain' ),
+		'not_found'                  => __( 'Not Found', 'text_domain' ),
+		'no_terms'                   => __( 'No items', 'text_domain' ),
+		'items_list'                 => __( 'Items list', 'text_domain' ),
+		'items_list_navigation'      => __( 'Items list navigation', 'text_domain' ),
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => false,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => true,
+		'show_tagcloud'              => true,
+	);
+	register_taxonomy( 'schoollevel', array( 'staff_member' ), $args );
+
+}
+add_action( 'init', 'veracross_schoollevel_taxonomies', 0 );
 
 }
