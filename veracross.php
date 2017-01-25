@@ -540,19 +540,22 @@ add_filter( 'display_posts_shortcode_output', 'be_display_posts_custom_fields', 
 function be_display_posts_custom_fields( $output, $atts, $image, $title, $date, $excerpt ) {
 	// Get our custom fields
 	global $post;
+	
+	$person_pk = esc_attr( get_post_meta( $post->ID, 'person_pk', true ) );
 	$job_title = esc_attr( get_post_meta( $post->ID, 'job_title', true ) );
 	$email_1 = esc_attr( get_post_meta( $post->ID, 'email_1', true ) );
 	$biography = esc_attr( get_post_meta( $post->ID, 'biography', true ) );
 	$gender = esc_attr( get_post_meta( $post->ID, 'gender', true ) );
 	$department = esc_attr( get_post_meta( $post->ID, 'department', true ) );
 	// If there's a value for the custom field, let's wrap them with <span>'s so you can control them with CSS
+	if( isset( $person_pk ) ) $person_pk = '<br /><span class="picture"><img src="https://photos.veracross.com/nist/' . $person_pk . '.jpg"></span> ';
 	if( isset( $job_title ) ) $job_title = '<br /><span class="job_title">' . $job_title . '</span> ';
 	if( isset( $email_1 ) ) $email_1 = '<br /><span class="email_1"><a href="mailto:' . $email_1 . '">email</a></span> ';
 	if( isset( $biography ) ) $biography = '<br /><span class="biography">' . $biography . '</span> ';
 	if( isset( $gender ) ) $gender = '<br /><span class="gender">' . $gender . '</span> ';
 	if( isset( $department ) ) $department = '<br /><span class="department">' . $department . '</span> ';
 	// Now let's rebuild the output. 
-	$output = '<li>' . $image . $title . $job_title . $email_1 . $biography . $gender . $department . $date . $excerpt . '</li>';
+	$output = '<li>' . $image . $title . $person_pk . $job_title . $email_1 . $biography . $gender . $department . $date . $excerpt . '</li>';
 	// Finally we'll return the modified output
 	return $output;
 }
