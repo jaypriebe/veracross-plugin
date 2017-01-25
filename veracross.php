@@ -454,3 +454,108 @@ function veracross_schoollevel_taxonomies() {
 add_action( 'init', 'veracross_schoollevel_taxonomies', 0 );
 
 }
+ 
+
+/**
+ * Remove Link from Title on Display Posts Shortcode
+ * @author Bill Erickson
+ * @link http://www.billerickson.net/code/remove-link-from-title-on-display-posts-shortcode
+ *
+ * @param $output string, the original markup for an individual post
+ * @param $atts array, all the attributes passed to the shortcode
+ * @param $image string, the image part of the output
+ * @param $title string, the title part of the output
+ * @param $date string, the date part of the output
+ * @param $excerpt string, the excerpt part of the output
+ * @param $inner_wrapper string, what html element to wrap each post in (default is li)
+ * @return $output string, the modified markup for an individual post
+ */
+function be_display_posts_unlink_title( $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class ) {
+ 
+	// Create a new title
+	$title = '<span class="title">' . get_the_title() . '</span> ';
+	
+	// Now let's rebuild the output
+	$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $excerpt . $content . '</' . $inner_wrapper . '>';
+ 
+	// Finally we'll return the modified output
+	return $output;
+}
+add_filter( 'display_posts_shortcode_output', 'be_display_posts_unlink_title', 10, 9 );
+
+
+/**
+ * Set Defaults in Display Posts Shortcode
+ * 
+ * 'posts_per_page' => 999, - set this to number of staff per listing
+ * 'post_type' => staff_member - refers to custom post type we made
+ * 'taxonomy' => department - used to set custom taxonomy of department
+ *
+ * @param array $out, the output array of shortcode attributes (after user-defined and defaults have been combined)
+ * @param array $pairs, the supported attributes and their defaults
+ * @param array $atts, the user defined shortcode attributes
+ * @return array $out, modified output
+ */
+function be_dps_defaults( $out, $pairs, $atts ) {
+	$new_defaults = array( 
+		'posts_per_page' => 999,
+		'include_excerpt' => false,
+		'wrapper' => div,
+		'post_status' => publish,
+		'orderby' => title,
+		'order' => ASC,
+		'post_type' => staff_member,
+		'taxonomy' => department,
+	);
+	
+	foreach( $new_defaults as $name => $default ) {
+		if( array_key_exists( $name, $atts ) )
+			$out[$name] = $atts[$name];
+		else
+			$out[$name] = $default;
+	}
+	
+	return $out;
+}
+add_filter( 'shortcode_atts_display-posts', 'be_dps_defaults', 10, 3 );
+
+
+
+/**
+ * Add custom fields to Display Posts Shortcode
+ * @author Bill Erickson
+ * @link http://wordpress.org/extend/plugins/display-posts-shortcode/
+ * @link http://www.billerickson.net/shortcode-to-display-posts/comment-page-1/#comment-4565
+ *
+ * @param $output string, the original markup for an individual post
+ * @param $atts array, all the attributes passed to the shortcode
+ * @param $image string, the image part of the output
+ * @param $title string, the title part of the output
+ * @param $date string, the date part of the output
+ * @param $excerpt string, the excerpt part of the output
+ * @return $output string, the modified markup for an individual post
+ */
+ 
+add_filter( 'display_posts_shortcode_output', 'be_display_posts_custom_fields', 10, 6 );
+function be_display_posts_custom_fields( $output, $atts, $image, $title, $date, $excerpt ) {
+	// Get our custom fields
+	global $post;
+	$job_title = esc_attr( get_post_meta( $post->ID, 'job_title', true ) );
+	$email_1 = esc_attr( get_post_meta( $post->ID, 'email_1', true ) );
+	$biography = esc_attr( get_post_meta( $post->ID, 'biography', true ) );
+	$gender = esc_attr( get_post_meta( $post->ID, 'gender', true ) );
+	$department = esc_attr( get_post_meta( $post->ID, 'department', true ) );
+	// If there's a value for the custom field, let's wrap them with <span>'s so you can control them with CSS
+	if( isset( $job_title ) ) $job_title = '<br /><span class="job_title">' . $job_title . '</span> ';
+	if( isset( $email_1 ) ) $email_1 = '<br /><span class="email_1"><a href="mailto:' . $email_1 . '">email</a></span> ';
+	if( isset( $biography ) ) $biography = '<br /><span class="biography">' . $biography . '</span> ';
+	if( isset( $gender ) ) $gender = '<br /><span class="gender">' . $gender . '</span> ';
+	if( isset( $department ) ) $department = '<br /><span class="department">' . $department . '</span> ';
+	// Now let's rebuild the output. 
+	$output = '<li>' . $image . $title . $job_title . $email_1 . $biography . $gender . $department . $date . $excerpt . '</li>';
+	// Finally we'll return the modified output
+	return $output;
+}
+
+?>
+
